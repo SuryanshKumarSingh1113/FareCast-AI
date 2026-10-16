@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8f4">
+  <title>FareCast AI — Know your ride fare</title>
+  <style>
+    :root{color-scheme:light;--ink:#162d27;--muted:#65736e;--green:#176b50;--lime:#d7f56d;--line:#e3e9e2;--paper:#fff;--bg:#f7f8f4;--error:#a13f36}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+    .shell{max-width:1120px;margin:auto;padding:28px 28px 48px}.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:54px}.brand{display:flex;align-items:center;gap:11px;font-weight:750;letter-spacing:-.03em}.mark{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:var(--green);color:var(--lime);font-size:20px}.status{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:99px;background:#fff;padding:8px 12px;color:var(--muted);font-size:13px}.dot{width:8px;height:8px;border-radius:50%;background:#7eb36b}
+    .hero{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:52px;margin-bottom:30px}.eyebrow{margin:0 0 12px;color:var(--green);font-size:12px;font-weight:750;letter-spacing:.13em;text-transform:uppercase}.hero h1{max-width:500px;margin:0;font-size:clamp(36px,5vw,62px);line-height:1.02;letter-spacing:-.055em}.hero h1 span{color:var(--green)}.hero-copy{max-width:430px;margin:19px 0 0;color:var(--muted);font-size:17px}.route-art{position:relative;display:grid;place-items:center;min-height:210px;overflow:hidden;border:1px solid #dce8dc;border-radius:24px;background:linear-gradient(145deg,#e8f1e7,#f4f5df)}.route-art svg{width:min(90%,380px);height:auto}.art-caption{position:absolute;bottom:16px;right:19px;color:#526960;font-size:12px}
+    .workspace{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(280px,.8fr);gap:20px;align-items:start}.card{border:1px solid var(--line);border-radius:20px;background:var(--paper);box-shadow:0 10px 34px #1d36230a}.form-card{padding:26px}.card-heading{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:23px}.card-heading h2{margin:0;font-size:19px;letter-spacing:-.025em}.card-heading p{margin:4px 0 0;color:var(--muted);font-size:13px}.step{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:12px}.step i{display:grid;place-items:center;width:23px;height:23px;border-radius:50%;background:#e8f2e8;color:var(--green);font-style:normal;font-weight:700}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:17px}.field{min-width:0}.field.full{grid-column:1/-1}.field label{display:block;margin-bottom:7px;font-size:13px;font-weight:650}.input-wrap{position:relative}.input-wrap .prefix{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted)}input,select{width:100%;height:48px;border:1px solid #dce3dc;border-radius:10px;background:#fff;padding:0 13px;color:var(--ink);font:inherit;outline:none;transition:border-color .15s,box-shadow .15s}input:focus,select:focus{border-color:#57967b;box-shadow:0 0 0 3px #176b5017}.with-prefix{padding-left:31px}.hint{margin:6px 0 0;color:var(--muted);font-size:11px}.divider{grid-column:1/-1;display:flex;align-items:center;gap:10px;margin:2px 0 -2px;color:#7a8780;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase}.divider:after{height:1px;flex:1;background:var(--line);content:""}.submit{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;height:52px;margin-top:23px;border:0;border-radius:11px;background:var(--green);color:white;font:inherit;font-weight:700;cursor:pointer;transition:transform .15s,background .15s}.submit:hover{background:#105b42;transform:translateY(-1px)}.submit:disabled{cursor:wait;opacity:.7;transform:none}.arrow{color:var(--lime);font-size:18px}
+    .result-card{position:sticky;top:20px;min-height:345px;padding:25px;background:#183e32;color:white;overflow:hidden}.result-card:after{position:absolute;right:-75px;top:-95px;width:220px;height:220px;border:1px solid #ffffff16;border-radius:50%;box-shadow:0 0 0 28px #ffffff08,0 0 0 58px #ffffff05;content:"";pointer-events:none}.result-label{position:relative;z-index:1;color:#c7d8ca;font-size:12px;font-weight:650}.result-icon{position:relative;z-index:1;display:grid;place-items:center;width:42px;height:42px;margin:27px 0 18px;border:1px solid #ffffff25;border-radius:13px;background:#ffffff0b;color:var(--lime);font-size:22px}.result-card h2{position:relative;z-index:1;margin:0;font-size:25px;line-height:1.16;letter-spacing:-.04em}.fare{position:relative;z-index:1;margin:15px 0 0;color:var(--lime);font-size:clamp(36px,5vw,50px);line-height:1;font-weight:750;letter-spacing:-.05em}.result-note{position:relative;z-index:1;margin:13px 0 0;color:#c7d8ca;font-size:12px}.result-line{position:relative;z-index:1;height:1px;margin:24px 0 14px;background:#ffffff24}.fine-print{position:relative;z-index:1;margin:0;color:#b5c9bd;font-size:11px}.error{position:relative;z-index:1;margin:15px 0 0;color:#ffd5cf;font-size:13px}.hidden{display:none}.footer{display:flex;justify-content:space-between;gap:15px;margin-top:23px;color:#79847e;font-size:11px}.footer strong{color:#52645a}
+    @media(max-width:760px){.shell{padding:18px 16px 30px}.topbar{margin-bottom:34px}.hero{grid-template-columns:1fr;gap:22px;margin-bottom:18px}.hero h1{max-width:600px}.hero-copy{margin-top:13px}.route-art{min-height:145px}.route-art svg{max-height:140px}.workspace{grid-template-columns:1fr}.result-card{position:relative;top:auto;min-height:300px}.result-icon{margin-top:20px}.fare{font-size:44px}.footer{flex-direction:column}.form-card{padding:21px}}
+    @media(max-width:420px){.grid{grid-template-columns:1fr;gap:13px}.field.full,.divider{grid-column:auto}.card-heading{gap:8px}.step{font-size:11px}.status{font-size:11px}.shell{padding-inline:13px}}
+    .optional-tag{display:inline-block;margin-left:5px;padding:2px 7px;border-radius:99px;background:#eef3eb;color:#617166;font-size:10px;font-weight:650;vertical-align:1px}.field input::placeholder{color:#9aa59e;opacity:1}.field input:hover,.field select:hover{border-color:#aab9ad}.submit:focus-visible{outline:3px solid #a4d9be;outline-offset:3px}.field input:invalid:not(:placeholder-shown){border-color:#cf796e}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar"><div class="brand"><span class="mark" aria-hidden="true">↗</span> FareCast <span style="font-weight:500;color:#718078">AI</span></div><div class="status"><span class="dot"></span> Fare estimate, made simple</div></header>
+    <section class="hero"><div><p class="eyebrow">Your ride, with more clarity</p><h1>Know your fare <span>before you go.</span></h1><p class="hero-copy">Share a few trip details and get an instant fare estimate for your next ride across Delhi NCR.</p></div><div class="route-art" aria-hidden="true"><svg viewBox="0 0 420 190" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M45 145C99 145 90 44 157 44C224 44 195 139 259 139C313 139 305 77 374 77" stroke="#7AA88A" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 9"/><circle cx="45" cy="145" r="14" fill="#176B50"/><circle cx="45" cy="145" r="5" fill="#D7F56D"/><circle cx="374" cy="77" r="14" fill="#176B50"/><path d="M369 77L373 81L380 72" stroke="#D7F56D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(179 76) rotate(14)"><rect width="58" height="42" rx="13" fill="white"/><path d="M13 27L17 15C18 13 20 12 22 12H37C39 12 41 13 42 15L46 27V32H13V27Z" fill="#D7F56D" stroke="#176B50" stroke-width="2"/><path d="M18 22H41" stroke="#176B50" stroke-width="2"/><circle cx="20" cy="32" r="3" fill="#176B50"/><circle cx="39" cy="32" r="3" fill="#176B50"/></g><circle cx="89" cy="56" r="3" fill="#ADC29D"/><circle cx="332" cy="143" r="4" fill="#ADC29D"/><circle cx="301" cy="38" r="3" fill="#ADC29D"/></svg><span class="art-caption">Delhi NCR · India</span></div></section>
+    <section class="workspace" aria-label="Fare prediction">
+      <form class="card form-card" id="fare-form">
+        <div class="card-heading"><div><h2>Plan your ride</h2><p>Enter your trip details to see an estimate.</p></div><span class="step"><i>1</i> Trip details</span></div>
+        <div class="grid">
+          <div class="field"><label for="vehicle">Ride type</label><select id="vehicle" name="vehicle_type" required><option value="" disabled selected>Select a ride</option><option>Auto</option><option>Bike</option><option>Go Mini</option><option>Go Sedan</option><option>Premier Sedan</option><option>Uber XL</option><option>eBike</option></select></div>
+          <div class="field"><label for="distance">Ride distance <span class="optional-tag">Optional</span></label><div class="input-wrap"><input id="distance" class="with-prefix" name="ride_distance" type="number" min="0.1" max="50" step="0.1" placeholder="Skip if you’re not sure"><span class="prefix">km</span></div><p class="hint">No distance? We’ll use a typical trip distance for the estimate.</p></div>
+          <div class="field"><label for="pickup">Pickup location</label><input id="pickup" name="pickup_location" list="locations" placeholder="Search a Delhi NCR location" autocomplete="off" required></div>
+          <div class="field"><label for="drop">Drop-off location</label><input id="drop" name="drop_location" list="locations" placeholder="Search a Delhi NCR location" autocomplete="off" required></div>
+          <datalist id="locations"></datalist>
+          <div class="divider">When are you riding?</div>
+          <div class="field full"><label for="ride-time">Ride date and time</label><input id="ride-time" type="datetime-local" required><p class="hint">Used to account for the day and time of your ride</p></div>
+        </div>
+        <button class="submit" id="submit" type="submit"><span id="button-text">Estimate my fare</span><span class="arrow" aria-hidden="true">→</span></button>
+      </form>
+      <aside class="card result-card" aria-live="polite" aria-atomic="true"><div class="result-label">YOUR ESTIMATED FARE</div><div class="result-icon" aria-hidden="true">₹</div><h2 id="result-title">Your estimate<br>will appear here</h2><div id="fare" class="fare hidden"></div><p id="result-note" class="result-note">Complete your trip details and tap the button to get started.</p><p id="error" class="error hidden"></p><div class="result-line"></div><p class="fine-print">An estimate only. Final ride prices may vary.</p></aside>
+    </section>
+    <footer class="footer"><span>Built with <strong>FareCast AI</strong> · Powered by machine learning</span><span>For trips across Delhi NCR</span></footer>
+  </main>
+  <script>
+    const locations = ["AIIMS","Adarsh Nagar","Akshardham","Ambience Mall","Anand Vihar","Anand Vihar ISBT","Ardee City","Arjangarh","Ashok Park Main","Ashok Vihar","Ashram","Aya Nagar","Azadpur","Badarpur","Badshahpur","Bahadurgarh","Barakhamba Road","Basai Dhankot","Bhikaji Cama Place","Bhiwadi","Botanical Garden","Central Secretariat","Chanakyapuri","Chandni Chowk","Chhatarpur","Chirag Delhi","Civil Lines Gurgaon","Connaught Place","Cyber Hub","DLF City Court","DLF Phase 3","Delhi Gate","Dilshad Garden","Dwarka Mor","Dwarka Sector 21","Faridabad Sector 15","GTB Nagar","Ghaziabad","Ghitorni","Ghitorni Village","Golf Course Road","Govindpuri","Greater Kailash","Greater Noida","Green Park","Gurgaon Railway Station","Gurgaon Sector 29","Gurgaon Sector 56","Gwal Pahari","Hauz Khas","Hauz Rani","Hero Honda Chowk","Huda City Centre","IFFCO Chowk","IGI Airport","IGNOU Road","IIT Delhi","IMT Manesar","INA Market","ITO","Inderlok","India Gate","Indirapuram","Indraprastha","Jahangirpuri","Jama Masjid","Janakpuri","Jasola","Jhilmil","Jor Bagh","Kadarpur","Kalkaji","Kanhaiya Nagar","Karkarduma","Karol Bagh","Kashmere Gate","Kashmere Gate ISBT","Kaushambi","Keshav Puram","Khan Market","Khandsa","Kherki Daula Toll","Kirti Nagar","Lajpat Nagar","Lal Quila","Laxmi Nagar","Lok Kalyan Marg","MG Road","Madipur","Maidan Garhi","Malviya Nagar","Mandi House","Manesar","Mansarovar Park","Mayur Vihar","Meerut","Mehrauli","Model Town","Moolchand","Moti Nagar","Mundka","Munirka","Narsinghpur","Nawada","Nehru Place","Netaji Subhash Place","New Colony","New Delhi Railway Station","Nirman Vihar","Noida Extension","Noida Film City","Noida Sector 18","Noida Sector 62","Okhla","Old Gurgaon","Paharganj","Palam Vihar","Panchsheel Park","Panipat","Paschim Vihar","Pataudi Chowk","Patel Chowk","Peeragarhi","Pitampura","Pragati Maidan","Preet Vihar","Pulbangash","Punjabi Bagh","Qutub Minar","RK Puram","Raj Nagar Extension","Rajiv Chowk","Rajiv Nagar","Rajouri Garden","Ramesh Nagar","Rithala","Rohini","Rohini East","Rohini West","Sadar Bazar Gurgaon","Saidulajab","Saket","Saket A Block","Samaypur Badli","Sarai Kale Khan","Sarojini Nagar","Satguru Ram Singh Marg","Seelampur","Shahdara","Shastri Nagar","Shastri Park","Shivaji Park","Sikanderpur","Sohna Road","Sonipat","South Extension","Subhash Chowk","Subhash Nagar","Sultanpur","Sushant Lok","Tagore Garden","Tilak Nagar","Tis Hazari","Tughlakabad","Udyog Bhawan","Udyog Vihar","Udyog Vihar Phase 4","Uttam Nagar","Vaishali","Vasant Kunj","Vatika Chowk","Vidhan Sabha","Vinobapuri","Vishwavidyalaya","Welcome","Yamuna Bank"];
+    const locationList = document.getElementById("locations");
+    locations.forEach(name => { const option = document.createElement("option"); option.value = name; locationList.appendChild(option); });
+    const timeInput = document.getElementById("ride-time");
+    const now = new Date(); now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    timeInput.value = now.toISOString().slice(0, 16);
+    const form = document.getElementById("fare-form");
+    const button = document.getElementById("submit");
+    const buttonText = document.getElementById("button-text");
+    const title = document.getElementById("result-title");
+    const fare = document.getElementById("fare");
+    const note = document.getElementById("result-note");
+    const error = document.getElementById("error");
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const rideTime = new Date(timeInput.value);
+      const payload = {
+        vehicle_type: document.getElementById("vehicle").value,
+        ride_distance: document.getElementById("distance").value === "" ? null : Number(document.getElementById("distance").value),
+        pickup_location: document.getElementById("pickup").value.trim(),
+        drop_location: document.getElementById("drop").value.trim(),
+        hour: rideTime.getHours(),
+        day_of_week: (rideTime.getDay() + 6) % 7,
+        month: rideTime.getMonth() + 1
+      };
+      button.disabled = true; buttonText.textContent = "Calculating your estimate…";
+      error.classList.add("hidden"); fare.classList.add("hidden");
+      title.innerHTML = "Finding your\nfare estimate"; title.style.whiteSpace = "pre-line";
+      note.textContent = "Checking your trip details…";
+      try {
+        const response = await fetch("/predict", { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(payload) });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.detail || "We could not estimate this trip. Please check the details and try again.");
+        title.textContent = "A little more certainty for the road.";
+        fare.textContent = new Intl.NumberFormat("en-IN", { style: "currency", currency: data.currency || "INR", maximumFractionDigits: 2 }).format(data.estimated_fare);
+        fare.classList.remove("hidden"); note.textContent = data.message || "Estimated value only; actual ride prices may differ.";
+      } catch (err) {
+        title.textContent = "We couldn't get an estimate.";
+        note.textContent = "Please try again in a moment.";
+        error.textContent = err instanceof TypeError ? "Could not reach FareCast. Make sure the app is running, then try again." : err.message;
+        error.classList.remove("hidden");
+      } finally { button.disabled = false; buttonText.textContent = "Estimate my fare"; }
+    });
+  </script>
+</body>
+</html>

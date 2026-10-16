@@ -1,0 +1,16 @@
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Secrets
+.env
+
+# Keep datasets out of GitHub
+data/ncr_ride_bookings.csv
+data/cleaned_fare_data.csv
